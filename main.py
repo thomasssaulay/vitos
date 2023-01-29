@@ -19,7 +19,7 @@ class Application(Tk):
         self.init_widgets()
 
     def update(self):
-        # Update every REFRESH_RATE
+        # Update every REFRESH_RATE ms
         dateText = datetime.now().strftime("%H:%M:%S")
         self.clockLabel.config(text=dateText)
         self.after(REFRESH_RATE, self.update)
@@ -66,9 +66,30 @@ class Application(Tk):
                                bg=BACKGROUND_COLOR, font=("Courrier", 20))
         self.dateLabel.place(x=844, y=32)
 
+    def scan(self):
+        try:
+            __import__(bluetooth)
+        except ImportError:
+            print("error")
+
+        print("Scanning for bluetooth devices:")
+        devices = bluetooth.discover_devices(
+            lookup_names=True, lookup_class=True)
+        number_of_devices = len(devices)
+        print(number_of_devices, "devices found")
+        for addr, name, device_class in devices:
+            print("\n")
+            print("Device:")
+            print("Device Name: %s" % (name))
+            print("Device MAC Address: %s" % (addr))
+            print("Device Class: %s" % (device_class))
+            print("\n")
+        return
+
     def onTestButtonClick(self):
         test = subprocess.check_output(['whoami'])
         print(test)
+        self.scan()
 
     def onPhoneButtonClick(self, e):
         global newimg
