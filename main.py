@@ -66,6 +66,11 @@ class Application(Tk):
                                bg=BACKGROUND_COLOR, font=("Courrier", 20))
         self.dateLabel.place(x=844, y=32)
 
+        # Debug label init
+        self.debugLabel = Label(self, text="?", fg=SECONDARY_COLOR,
+                                bg=BACKGROUND_COLOR, font=("Courrier", 20))
+        self.debugLabel.place(x=32, y=256)
+
     def scan(self):
         try:
             __import__(bluetooth)
@@ -87,8 +92,6 @@ class Application(Tk):
         return
 
     def onTestButtonClick(self):
-        test = subprocess.check_output(['whoami'])
-        print(test)
         self.scan()
 
     def onPhoneButtonClick(self, e):
@@ -106,7 +109,7 @@ class Application(Tk):
 
 app = Application()
 app.title("Black VitOS")
-app.geometry("1024x600")
+app.geometry("800x480")
 app.configure(bg=BACKGROUND_COLOR)
 app.after(REFRESH_RATE, app.update)
 app.mainloop()
